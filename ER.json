@@ -1,0 +1,52 @@
+
+USUARIO{
+"id_user":"String",
+"password":"String",
+"last_login":"String",
+"rol_id":"String"
+}
+
+ABOGADO{
+"id_user":"String"
+}
+
+
+ROL{
+	"id_user":"String",
+	"admin":"String",
+	"rol":"String"
+}
+
+DOCUMENTOS{
+	"tipo":"String",
+	"paginas":"String",
+	"titulo":"String",
+	"f_creacion":"String",
+	"asignado_abogado":"String",
+	"id_user":"String",
+	"asociado_a_cliente":"String",
+	"visible_bool":"String",
+	"asunto":"String",
+	"categoria":"String",
+	"etiquetas":{"String"},
+	"comentario":"String"
+
+}
+
+
+CLIENTE{
+	"id_cliente":"String",
+	"nombre":"String",
+	"apellido":"String",
+	"telefono":"String",
+	"direccion":"String",
+	"f_nacimiento":"String",
+	"genero":"String",
+	"f_ingreso":"String",
+	"motivo_caso":"String",
+	"doc_fisico":"String",
+	"id_abogado":"String",
+	"tel_referencia":"String",
+	"n_expediente":"String",
+	"nombre_referencia":"String"
+}
