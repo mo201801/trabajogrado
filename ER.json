@@ -1,40 +1,54 @@
 
-USUARIO{
-"id_user":"String",
-"password":"String",
-"last_login":"String",
-"rol_id":"String"
+{"USUARIO":
+	{
+        "id_user":"12254444",
+        "password":"pass",
+        "last_login":"datetime",
+        "rol_id":"rol_id",
+        "token":"None"
+	}
 }
 
-ABOGADO{
+
+{"ABOGADO":
+	{
 "id_user":"String"
+ }
 }
 
 
-ROL{
+{"ROL":
+	{
 	"id_user":"String",
 	"admin":"String",
 	"rol":"String"
+ }
 }
 
-DOCUMENTOS{
+{"DOCUMENTOS":
+	{
 	"tipo":"String",
 	"paginas":"String",
 	"titulo":"String",
 	"f_creacion":"String",
 	"asignado_abogado":"String",
 	"id_user":"String",
-	"asociado_a_cliente":"String",
+	"asociado_a_cliente":
+	{
+		"id_cliente"
+	},
 	"visible_bool":"String",
 	"asunto":"String",
 	"categoria":"String",
 	"etiquetas":{"String"},
 	"comentario":"String"
 
+ }
 }
 
 
-CLIENTE{
+{"CLIENTE":
+	{
 	"id_cliente":"String",
 	"nombre":"String",
 	"apellido":"String",
@@ -48,5 +62,15 @@ CLIENTE{
 	"id_abogado":"String",
 	"tel_referencia":"String",
 	"n_expediente":"String",
-	"nombre_referencia":"String"
+	"nombre_referencia":"String",
+
+	"documentos_asoc":{
+		"documento1":"pdf_12254",
+		"documento2":"pdf_12547"
+
+	}
+
+ }
 }
+
+
