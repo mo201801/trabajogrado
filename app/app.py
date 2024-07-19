@@ -6,7 +6,7 @@
 # Fecha: Julio,Agosto 2024
 #----------------------------------------------------------------------------------------------------------
 
-Vista cliente toma de datos:
+
 from flask import Flask, render_template, request, jsonify
 from rethinkdb import RethinkDB
 from config_clientes import RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_TABLE
@@ -17,6 +17,13 @@ conn = r.connect(host=RETHINKDB_HOST, port=RETHINKDB_PORT, db=RETHINKDB_DB).repl
 
 app = Flask(__name__)
 
+@app.route('/')
+def index(): 
+    return render_template("clientes.html")
+
+
+#Jesse_18/07/2024
+#Eviar datos de clientes
 @app.route('/clientes',methods=['POST'])
 def login(): 
     if request.method =='POST':
@@ -37,11 +44,25 @@ def login():
             "Nomb_refe":nfe}).run(conn)
     return jsonify(datos)
 
+#Jesse_18/07/2024
+#Eviar datos de cargar documentos
+@app.route('/cargar',methods=['POST'])
+def docu(): 
+    if request.method =='POST':
+        secli=request.form["clientes"]
+        ti=request.form["tipdoc"]
+        a=request.form["abo"]
+        fi=request.form["feingre"]
+        c=request.form["coment"]
+        prueba=[secli,ti,a,fi,c]
+        print(prueba);
+        p=r.table('cargadoc').insert({"Nom_Cliente":secli, "Tipo_doc":ti, "Agogado":a, "Fecha_Ing":fi,\
+            "Comentario":c}).run(conn)
+    return jsonify(prueba)
 
-@app.route('/')
-def index(): 
-    
-    return render_template("clientes.html")
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
