@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Subida de Documento con Bootstrap</title>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container mt-4">
+  <h2 class="mb-4">Formulario para Subir Documento</h2>
+  <form action="upload.php" method="POST" enctype="multipart/form-data" id="subirdoc">
+    <div class="form-group">
+      <label for="clientes">Clientes:</label>
+      <input type="text" class="form-control" id="clientes" name="clientes" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="tipo_documento">Tipo de Documento:</label>
+      <select class="form-control" id="tipo_documento" name="tipo_documento" required>
+        <option value="">Selecciona el tipo de documento</option>
+        <option value="Contrato">Contrato</option>
+        <option value="Informe">Informe</option>
+        <option value="Acta">Acta</option>
+        <!-- Agrega más opciones según tus necesidades -->
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="abogado">Abogado Responsable:</label>
+      <input type="text" class="form-control" id="abogado" name="abogado" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="fecha_ingreso">Fecha de Ingreso:</label>
+      <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="comentario">Comentario:</label>
+      <textarea class="form-control" id="comentario" name="comentario" rows="4"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="archivo">Adjuntar Archivo:</label>
+      <input type="file" class="form-control-file" id="archivo" name="archivo" accept=".pdf, .doc, .docx">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Subir Documento</button>
+  </form>
+</div>
+
+<footer class="text-center mt-5">
+  <p>Bufete Cartagena 2024®</p>
+</footer>
+
+<script>
+$(function(){
+  $('#subirdoc').on('submit',function(event){
+    event.preventDefault();
+    $.ajax({
+      type:'POST',
+      url:'/cargar',  // URL del script PHP para guardar datos
+      data:{
+        clientes: $('#clientes').val(),
+        tipdoc: $('#tipo_documento').val(),
+        abo: $('#abogado').val(),
+        feingre: $('#fecha_ingreso').val(),
+        coment: $('#comentario').val()
+      },
+      success:function(response){
+        console.log(response);
+        $('#subirdoc')[0].reset();
+        alert('Datos guardados correctamente.');
+
+      },
+      error:function(response){
+        alert('Error al guardar los datos.');
+      }
+    });
+  });
+}); 
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
