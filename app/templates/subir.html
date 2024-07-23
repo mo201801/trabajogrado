@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulario de Subida de Documento con Bootstrap</title>
-
+<!--agregado de favicon-->
+   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<!-- Bootstrap CSS -->
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -64,18 +66,17 @@
 $(function(){
   $('#subirdoc').on('submit',function(event){
     event.preventDefault();
-    $.ajax({
+// funcion para hacer envio de datos de formulario y archivo.
+  var formData = new FormData(this);
+    
+$.ajax({
       type:'POST',
       url:'/cargar',  // URL del script PHP para guardar datos
-      data:{
-        clientes: $('#clientes').val(),
-        tipdoc: $('#tipo_documento').val(),
-        abo: $('#abogado').val(),
-        feingre: $('#fecha_ingreso').val(),
-        coment: $('#comentario').val()
-      },
+      data:formData
+      ,processData: false,
+      contentType: false,
       success:function(response){
-        console.log(response);
+        //console.log(response);
         $('#subirdoc')[0].reset();
         alert('Datos guardados correctamente.');
 
@@ -86,6 +87,8 @@ $(function(){
     });
   });
 }); 
+                    
+   
 </script>
 
 <!-- Bootstrap JS -->
