@@ -12,10 +12,24 @@ from rethinkdb import RethinkDB
 from config_clientes import RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_TABLE
 import json 
 
+# espacio de carpetas de almacenamiento
+#  de momento temporales debe hacerse de manera dinamica
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'txt','pdf'}
+
 r = RethinkDB()
 conn = r.connect(host=RETHINKDB_HOST, port=RETHINKDB_PORT, db=RETHINKDB_DB).repl()
 
 app = Flask(__name__)
+
+# espacio de almacenamiento , debe crearse primer con mkdi -p _nombre_carpeta_
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# funcion para delimitar los archivos que son admitidos.
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 @app.route('/')
 def index(): 
@@ -44,25 +58,37 @@ def login():
             "Nomb_refe":nfe}).run(conn)
     return jsonify(datos)
 
-#Jesse_18/07/2024
-#Eviar datos de cargar documentos
+#Rafael_22/07/2024
+#Enviar datos de cargar documentos
 @app.route('/cargar',methods=['POST'])
-def docu(): 
-    if request.method =='POST':
-        secli=request.form["clientes"]
-        ti=request.form["tipdoc"]
-        a=request.form["abo"]
-        fi=request.form["feingre"]
-        c=request.form["coment"]
-        prueba=[secli,ti,a,fi,c]
-        print(prueba);
-        p=r.table('cargadoc').insert({"Nom_Cliente":secli, "Tipo_doc":ti, "Agogado":a, "Fecha_Ing":fi,\
-            "Comentario":c}).run(conn)
-    return jsonify(prueba)
+def docu():
+    if 'file' not in request.files:
 
-
-
+        return jsonify({'message': 'No file part'})
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        print('no archivo select')
+        return jsonify({'message': 'No selected file'})
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        # Recoger otros datos del formulario
+        additional_data = request.form.to_dict()
+        
+        # Puedes realizar más acciones con los datos adicionales aquí
+        print(additional_data)
+        #retorna
+#{'clientes': 'rafael', 'tipo_documento': 'Contrato', 
+# 'abogado': 'Juan', 'fecha_ingreso': '2024-07-25', 'comentario': 'comentario'}
+        return jsonify({'message': 'File successfully uploaded', 'data': additional_data})   
+    return jsonify({'message': 'File not allowed'})
 
 
 if __name__ == '__main__':
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
     app.run(debug=True)
