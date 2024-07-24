@@ -10,7 +10,8 @@
 from flask import Flask, render_template, request, jsonify
 from rethinkdb import RethinkDB
 from config_clientes import RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_TABLE
-import json 
+import json
+from werkzeug.security import generate_password_hash, check_password_hash 
 
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
@@ -21,6 +22,7 @@ r = RethinkDB()
 conn = r.connect(host=RETHINKDB_HOST, port=RETHINKDB_PORT, db=RETHINKDB_DB).repl()
 
 app = Flask(__name__)
+app.secret_key = 'UPE@2024_TE$15'
 
 # espacio de almacenamiento , debe crearse primer con mkdi -p _nombre_carpeta_
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -35,6 +37,24 @@ def allowed_file(filename):
 def index(): 
     return render_template("clientes.html")
 
+@app.route('/login')
+def index():
+	flash('An error occurred.', 'error')
+	return render_template('login.html')
+
+
+
+# hash sobre contrasenas , este metodo solo realiza hash no ingresa a DB
+#Rafael-23-07-2024
+@app.route('/login',methods=["POST"])
+def login():
+	name = request.form["nombre"] # con los nombres que se definio en ajax
+	pas = request.form["password"]
+	pass_hash = generate_password_hash(pas)
+
+	print(name,pass_hash)
+	#flash('An error occurred.', 'error')
+	return jsonify({'Funcionamiento':pass_hash}) #,201 si queremos poner que tipo retorna
 
 #Jesse_18/07/2024
 #Eviar datos de clientes
