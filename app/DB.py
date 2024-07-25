@@ -31,3 +31,25 @@ class RethinkDBCRUD:
 	def delete(self, table_name, item_id):
 		result = self.r.table(table_name).get(item_id).delete().run(self.connection)
 		return result
+
+# rescatar solo select * from table where user=rafael
+	def get_User(self, table_name, user):
+			query = {"username":user}
+			result = self.r.table(table_name).filter(query).run(self.connection)
+			return result
+ # from DB import RethinkDBCRUD
+ # con = RethinkDBCRUD(db='user')
+ # res = con.get_User('usuarios','marcelino')
+ # res.items[0]['password'] 
+
+
+# get all data de una tabla
+	def get_All_Data(self, table_name):
+			result = self.r.table(table_name).run(self.connection)
+			return result
+
+ # from DB import RethinkDBCRUD
+ # con = RethinkDBCRUD(db='user')
+ # res = con.get_All_Data('usuarios')
+ # data = list(res)
+ # cant_datos = len(data)  
