@@ -108,6 +108,19 @@ def docu():
     return jsonify({'message': 'File not allowed'})
 
 
+#Jesse_26/07/2024
+@app.route('/mostrar',methods=['GET'])
+def mostrar():
+    res = con.get_All_Data('registro')
+    mostr_cliente = list(res)
+    cant_datos = len(mostr_cliente) 
+    dato=dict()
+    for j in range(len(mostr_cliente)):
+      dato[mostr_cliente[j]['Nombre']]=mostr_cliente[j]['Apellido']
+
+    return render_template('mostrar.html',mostrar=dato)
+
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
