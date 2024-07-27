@@ -6,17 +6,18 @@ r = RethinkDB()
 
 # Configurar la conexión a RethinkDB
 conn = r.connect("localhost", 28015)
+#conn = r.connect("51.222.28.110", 28015)
 
 @app.route('/')
-def traspasoVehiculo():
-    return render_template('traspasoVehiculo.html')
+def divorcio():
+    return render_template('divorcio.html')
 
 
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    table_name = 'documents'
-    data = list(r.db('test').table(table_name).run(conn))
+    table_name = 'divorcio'
+    data = list(r.db('test-divorcio').table(table_name).run(conn))
     return jsonify(data)
 
 if __name__ == '__main__':
