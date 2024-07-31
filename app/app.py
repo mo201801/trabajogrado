@@ -129,6 +129,27 @@ def get_data():
     data = list(r.db('lawfirm').table(table_name).run(conn))
     return jsonify(data)
 
+#Marcelino_30/07/2024
+# Muestra la data que esta en el dashboard, es de corregir que datos vamos a mostrar 
+conn = r.connect(db='dashboard')
+
+@app.route('/')
+def dashboard():
+    documentos = list(r.table('documentos').run(conn))
+    usuarios = list(r.table('usuarios').run(conn))
+
+    return render_template('dashboard.html', documentos=documentos, usuarios=usuarios)
+
+@app.route('/data/documentos')
+def data_documentos():
+    documentos = list(r.table('documentos').run(conn))
+    return jsonify(documentos)
+
+@app.route('/data/usuarios')
+def data_usuarios():
+    usuarios = list(r.table('usuarios').run(conn))
+    return jsonify(usuarios)
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
