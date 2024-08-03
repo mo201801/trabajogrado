@@ -166,7 +166,28 @@ def index():
     data['revision']=m
     data['finalizado']=s
     return render_template('dashboard.html',target=data)
-	
+
+
+
+#Jesse_02/08/2024
+#Sirve para la aplicacion de roles de usuario
+@app.route('/vista/<usuario>')
+def vista(usuario):
+    f=con.get_User('rol', usuario)
+    t=f.items[0]['rol']
+    return render_template("roles.html", datavis=t)
+
+
+@app.route('/document/<informacion>')
+def vista2(informacion):
+    print(informacion)
+    x=informacion*2
+    return str(x)
+
+
+
+
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
