@@ -12,6 +12,7 @@ from rethinkdb import RethinkDB
 from config_clientes import RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_TABLE
 import json
 from werkzeug.security import generate_password_hash, check_password_hash 
+from datetime import datetime
 
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
@@ -149,7 +150,23 @@ def data_documentos():
 def data_usuarios():
     usuarios = list(r.table('usuarios').run(conn))
     return jsonify(usuarios)
-
+	
+#Marcelino_02/08/2024	
+#Sirve para mostrar los datos en el grafico y cuadros del dashboard
+@app.route('/')
+def index():
+    hora=datetime.now()
+    h=hora.strftime('%Y')
+    d=hora.strftime('%d')
+    m=hora.strftime('%m')
+    s=hora.strftime('%s')
+    data={}
+    data['borrador']=h
+    data['aprobado']=d
+    data['revision']=m
+    data['finalizado']=s
+    return render_template('dashboard.html',target=data)
+	
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
