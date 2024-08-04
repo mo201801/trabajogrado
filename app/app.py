@@ -208,7 +208,7 @@ def subir():
 
 @app.route('/editar')
 def editar():
-    return render_template("editar.html")
+    return render_template("documento.html")
 
 @app.route('/archivar')
 def archivar():
