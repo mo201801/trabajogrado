@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Login</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    .move-down {
-      margin-top: -6rem; /* Ajusta este valor según tus necesidades */
-    }
-  </style>
-</head>
-<body >
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Inicio</a>
+  <a class="navbar-brand" href="{{ url_for('menuprin') }}">Inicio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -25,9 +10,9 @@
           Categorías
         </a>
         <div class="dropdown-menu" aria-labelledby="categoriasDropdown">
-          <a class="dropdown-item" href="#">Traspaso de Vehículo</a>
-          <a class="dropdown-item" href="#">Inmuebles</a>
-          <a class="dropdown-item" href="#">Penal</a>
+          <a class="dropdown-item" href="{{ url_for('traspaso') }}">Traspaso de Vehículo</a>
+          <a class="dropdown-item" href="{{ url_for('inmueble') }}">Inmuebles</a>
+          <a class="dropdown-item" href="{{ url_for('penal') }}">Penal</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -35,33 +20,28 @@
           Documentos
         </a>
         <div class="dropdown-menu" aria-labelledby="documentosDropdown">
-          <a class="dropdown-item" href="#">Subir documento</a>
-          <a class="dropdown-item" href="#">Editar documento</a>
-          <a class="dropdown-item" href="#">Archivados</a>
+          <a class="dropdown-item" href="{{ url_for('subir') }}">Subir documento</a>
+          <a class="dropdown-item" href="{{ url_for('editar') }}">Editar documento</a>
+          <a class="dropdown-item" href="{{ url_for('archivar') }}">Archivados</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Dashboard</a>
+        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="documentosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Configuraciones
         </a>
         <div class="dropdown-menu" aria-labelledby="documentosDropdown">
-          <a class="dropdown-item" href="#">Crear usuarios</a>
-          <a class="dropdown-item" href="#">Logs</a>
+          <a class="dropdown-item" href="{{ url_for('creausua') }}">Crear usuarios</a>
+          <a class="dropdown-item" href="{{ url_for('estadistica') }}">Logs</a>
         </div>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('inise') }}">Cerrar Sesión</a>
       </li>
     </ul>
   </div>
 </nav>
-
-    <footer class="text-center mt-0">
-        <p>Bufete Cartagena 2024</p>
-    </footer>
-</body>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
