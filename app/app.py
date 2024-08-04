@@ -210,10 +210,6 @@ def subir():
 def editar():
     return render_template("documento.html")
 
-@app.route('/archivar')
-def archivar():
-    return render_template("archivar.html")
-
 
 @app.route('/creausua')
 def creausua():
