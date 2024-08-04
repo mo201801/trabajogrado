@@ -185,6 +185,67 @@ def vista2(informacion):
     return str(x)
 
 
+#Jesse_03/08/2024
+#funciones para las rutas de vistas
+
+@app.route('/traspaso')
+def traspaso():
+    return render_template("traspasoVehiculo.html")
+
+
+@app.route('/inmueble')
+def inmueble():
+    return render_template("herencia.html")
+
+@app.route('/penal')
+def penal():
+    return render_template("penal.html")
+
+
+@app.route('/subir')
+def subir():
+    return render_template("subir.html")
+
+@app.route('/editar')
+def editar():
+    return render_template("editar.html")
+
+@app.route('/archivar')
+def archivar():
+    return render_template("archivar.html")
+
+
+@app.route('/creausua')
+def creausua():
+    return render_template("creausua.html")
+
+@app.route('/estadistica')
+def estadistica():
+    return render_template("logs.html")
+
+
+@app.route('/menuprin')
+def menuprin():
+    return render_template("menuprin.html")
+
+
+@app.route('/dashboard')
+def dashboard():
+    hora=datetime.now()
+    h=hora.strftime('%Y')
+    d=hora.strftime('%d')
+    m=hora.strftime('%m')
+    s=hora.strftime('%s')
+    data={}
+    data['borrador']=h
+    data['aprobado']=d
+    data['revision']=m
+    data['finalizado']=s
+    return render_template("dashboard.html",target=data)
+
+@app.route('/inise')
+def inise():
+    return render_template("loguear.html")
 
 
 
