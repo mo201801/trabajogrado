@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,url_for
 from rethinkdb import RethinkDB
-from config_clientes import RETHINKDB_HOST, RETHINKDB_PORT, RETHINKDB_DB, RETHINKDB_TABLE
-import json
+import json,os
 from werkzeug.security import generate_password_hash, check_password_hash 
 from datetime import datetime
 from DB import RethinkDBCRUD
-con = RethinkDBCRUD(host='51.222.28.110', db='user')  
+con = RethinkDBCRUD(host='51.222.28.110', db='DB_UPES')  
 
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
@@ -27,10 +26,10 @@ def allowed_file(filename):
 
 @app.route('/')
 def index(): 
-    return render_template("clientes.html")
+    return render_template("index.html")
 
-@app.route('/inise')
-def inise():
+@app.route('/login')
+def login():
     return render_template("loguear.html")
 
     
@@ -79,8 +78,8 @@ def editar():
 def creausua():
     return render_template("creausua.html")
 
-@app.route('/estadistica')
-def estadistica():
+@app.route('/logs')
+def logs():
     return render_template("logs.html")
 
 
@@ -89,10 +88,35 @@ def menuprin():
     return render_template("menuprin.html")
 
 
+@app.route('/logout')
+def logout():
+    return render_template("menuprin.html")
 
+@app.route('/insertuser',methods=["POST"])
+def insertuser():
+	if request.method == 'POST':
+		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+		name = request.form["nombre"] # con los nombres que se definio en ajax
+		pas = request.form["password"]
+		bol_admin = request.form["admin"]
+
+		pass_hash = generate_password_hash(pas)
+
+		dir_regimen = f"casos/{name}/regimen"
+		dir_traspasos = f"casos/{name}/traspasos"
+		dir_penal = f"casos/{name}/penal"
+		dir_default = [dir_regimen,dir_traspasos,dir_penal]
+
+		for carpet in dir_default:
+			os.makedirs(carpet,exist_ok=True)
+			
+		# insercion de datos en DB con clase
+		con.insert('usuarios',{'username':name,'password':pass_hash,'rol':bol_admin})
+
+	return redirect(url_for('index')) #,201 si queremos poner que tipo retorna
 
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
