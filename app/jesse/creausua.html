@@ -33,7 +33,7 @@
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
                     </div>
-                    <button type="submit" class="btn btn-success btn-block">Loguear</button>
+                    <button type="submit" class="btn btn-success btn-block">Crear</button>
 
                    <br>
 
@@ -52,13 +52,16 @@
   $('#formulario').on('submit',function(event){
     event.preventDefault();
     console.log("entre");
+  var checkbox = document.getElementById('admin');
+  var value = checkbox.checked ? 1 : 0;
 
     $.ajax({
       type:'POST',
-      url:'/login',
+      url:'/insertuser',
       data:{
         nombre:$('#username').val(),
-        password: $('#password').val()
+        password: $('#password').val(),
+        admin: value
       },
       success:function(response){
         console.log(response)
