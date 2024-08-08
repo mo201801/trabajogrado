@@ -38,7 +38,10 @@
                    <br>
 
                     <input type="checkbox" id="admin" name="admin" value="admin">
-                    <label for="admin"><p style="color: red;">Marcar si es un usuario Admin</p></label><br>
+                    <label for="admin"><p style="color: red;">Crear Usuario Admin</p></label><br>
+
+                    <input type="checkbox" id="abogado" name="abogado" value="abogado">
+                    <label for="abogado"><p style="color: red;">Marcar si es Abogado</p></label><br>
        
                 </form>
             </div>
@@ -53,7 +56,9 @@
     event.preventDefault();
     console.log("entre");
   var checkbox = document.getElementById('admin');
-  var value = checkbox.checked ? 1 : 0;
+   var checkbox = document.getElementById('abogado');
+  var admin = checkbox.checked ? 1 : 0;
+  var abogado = checkbox.checked ? 1 : 0;
 
     $.ajax({
       type:'POST',
@@ -61,7 +66,7 @@
       data:{
         nombre:$('#username').val(),
         password: $('#password').val(),
-        admin: value
+        admin: admin, abogado:abogado
       },
       success:function(response){
         console.log(response)
