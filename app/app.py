@@ -35,13 +35,23 @@ def allowed_file(filename):
 
 
 @app.route('/')
-def index(): 
-    return render_template("clientes.html")
-
-@app.route('/login')
 def index():
-	flash('An error occurred.', 'error')
-	return render_template('login.html')
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	ip = request.remote_addr
+	date= datetime.now()
+	fecha = date.strftime('%Y-%m-%d')
+	hora = date.strftime('%H:%M')
+	msj = f'Usuario con IP: {ip} se logueo'
+	servicio = 'debug'
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'mensaje':msj,'servicio':servicio})
+	return render_template("index.html")
+
+@app.route('/login',methods=['GET', "POST"])
+def login():
+    if request.method == 'POST':
+        return redirect(url_for('creausua'))
+
+    return render_template("loguear.html")
 
 
 
@@ -134,12 +144,19 @@ def get_data():
 # Muestra la data que esta en el dashboard, es de corregir que datos vamos a mostrar 
 conn = r.connect(db='dashboard')
 
-@app.route('/')
+@app.route('/dashboard')
 def dashboard():
-    documentos = list(r.table('documentos').run(conn))
-    usuarios = list(r.table('usuarios').run(conn))
-
-    return render_template('dashboard.html', documentos=documentos, usuarios=usuarios)
+    hora=datetime.now()
+    h=hora.strftime('%Y')
+    d=hora.strftime('%d')
+    m=hora.strftime('%m')
+    s=hora.strftime('%s')
+    data={}
+    data['borrador']=h
+    data['aprobado']=d
+    data['revision']=m
+    data['finalizado']=s
+    return render_template("dashboard.html",target=data)
 
 @app.route('/data/documentos')
 def data_documentos():
