@@ -35,54 +35,18 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Inicio</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorías
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="categoriasDropdown">
-                        <a class="dropdown-item" href="#">Traspaso de Vehículo</a>
-                        <a class="dropdown-item" href="#">Inmuebles</a>
-                        <a class="dropdown-item" href="#">Penal</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="documentosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Documentos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="documentosDropdown">
-                        <a class="dropdown-item" href="#">Subir documento</a>
-                        <a class="dropdown-item" href="#">Editar documento</a>
-                        <a class="dropdown-item" href="#">Archivados</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="documentosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Configuraciones
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="documentosDropdown">
-                        <a class="dropdown-item" href="#">Crear usuarios</a>
-                        <a class="dropdown-item" href="#">Logs</a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Iniciar Sesión</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+   
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+
+<h1>
+<p>Ha iniciado Sesion: {{session['username']}}, con rol de usuario: {{session['rol']}}</p>
+</h1>
+
 
     <main role="main" class="col-md-9 mx-auto col-lg-11 px-3">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -94,15 +58,25 @@
                 <div class="card bg-danger text-white">
                     <div class="card-body">
                         <h5 class="card-title">Borrador</h5>
-                        <p class="card-text" id="borradorCount"></p>
+                        {{target['borrador']}}
                     </div>
                 </div>
             </div>
+            
+
+
+            <input type="hidden" id="borrador" value="{{target['borrador']}}">
+            <input type="hidden" id="aprobado" value="{{target['aprobado']}}">
+            <input type="hidden" id="revision" value="{{target['revision']}}">
+            <input type="hidden" id="finalizado" value="{{target['aprobado']}}">
+
+
+
             <div class="col-md-3">
                 <div class="card bg-primary text-white">
                     <div class="card-body">
                         <h5 class="card-title">Aprobados</h5>
-                        <p class="card-text" id="aprobadosCount"></p>
+                        {{target['aprobado']}}
                     </div>
                 </div>
             </div>
@@ -110,7 +84,7 @@
                 <div class="card bg-success text-white">
                     <div class="card-body">
                         <h5 class="card-title">Revision</h5>
-                        <p class="card-text" id="revisionCount"></p>
+                        {{target['revision']}}
                     </div>
                 </div>
             </div>
@@ -118,7 +92,7 @@
                 <div class="card bg-warning text-white">
                     <div class="card-body">
                         <h5 class="card-title">Finalizado</h5>
-                        <p class="card-text" id="finalizadoCount"></p>
+                        {{target['finalizado']}}
                     </div>
                 </div>
             </div>
@@ -134,147 +108,93 @@
                 </div>
             </div>
         </div>
-
-        <h5>Usuarios</h5>
-        <div class="highlight-box">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col" class="text-danger">Borrador</th>
-                            <th scope="col" class="text-primary">Aprobados</th>
-                            <th scope="col" class="text-success">Revisión</th>
-                            <th scope="col" class="text-warning">Finalizado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usuariosTable">
-                        <!-- Rows will be populated with JS -->
-                    </tbody>
-                </table>
-            </div>
+        <h5>Usuario</h5>
+        <div class="container mt-5">
+        <div class="table-responsive">
+            <table id="documentsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Borrador</th>
+                        <th>Aprobados</th>
+                        <th>Revisión</th>
+                        <th>Finalizado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
-        <br>
-        <h5>Documentos cargados</h5>
-        <div class="highlight-box">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Documento</th>
-                            <th scope="col">Tipo de caso</th>
-                            <th scope="col">Encargado</th>
-                            <th scope="col">Tamaño</th>
-                            <th scope="col">Fecha creación</th>
-                            <th scope="col">Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="documentosTable">
-                        <!-- Rows will be populated with JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    </div>
 
         <!-- Footer -->
-        <footer class="text-center mt-5">
-            <p>Bufete Cartagena 2024</p>
-        </footer>
-    </main>
+        
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Fetch documentos data
-        fetch('/data/documentos')
-            .then(response => response.json())
-            .then(data => {
-                let borradorCount = 0;
-                let aprobadosCount = 0;
-                let revisionCount = 0;
-                let finalizadoCount = 0;
-
-                data.forEach(doc => {
-                    switch (doc.estado) {
-                        case 'Borrador':
-                            borradorCount = doc.cantidad;
-                            break;
-                        case 'Aprobados':
-                            aprobadosCount = doc.cantidad;
-                            break;
-                        case 'Revisión':
-                            revisionCount = doc.cantidad;
-                            break;
-                        case 'Finalizado':
-                            finalizadoCount = doc.cantidad;
-                            break;
-                    }
-                });
-
-                document.getElementById('borradorCount').textContent = borradorCount;
-                document.getElementById('aprobadosCount').textContent = aprobadosCount;
-                document.getElementById('revisionCount').textContent = revisionCount;
-                document.getElementById('finalizadoCount').textContent = finalizadoCount;
-
-                var ctx = document.getElementById('estadoDocumentosChart').getContext('2d');
-                var estadoDocumentosChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Borrador', 'Aprobados', 'Revisión', 'Finalizado'],
-                        datasets: [{
-                            data: [borradorCount, aprobadosCount, revisionCount, finalizadoCount],
-                            backgroundColor: ['#dc3545', '#007bff', '#28a745', '#ffc107']
-                        }]
+   <script>
+        var ctx = document.getElementById('estadoDocumentosChart').getContext('2d');
+        var borrador = document.getElementById('borrador').value;
+        var aprobado = document.getElementById('aprobado').value;
+        var revision = document.getElementById('revision').value;
+        var finalizado = document.getElementById('finalizado').value;
+        var estadoDocumentosChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Borrador', 'Aprobados', 'Revisión', 'Finalizado'],
+                datasets: [{
+                    data: [borrador, aprobado, revision, finalizado],
+                    backgroundColor: ['#dc3545', '#007bff', '#28a745', '#ffc107']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'bottom'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(tooltipItem) {
-                                        var total = tooltipItem.dataset.data.reduce((acc, val) => acc + val, 0);
-                                        var value = tooltipItem.raw;
-                                        var percentage = ((value / total) * 100).toFixed(2);
-                                        return `${tooltipItem.label}: ${value} (${percentage}%)`;
-                                    }
-                                }
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                var total = tooltipItem.dataset.data.reduce((acc, val) => acc + val, 0);
+                                var value = tooltipItem.raw;
+                                var percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
                             }
                         }
                     }
-                });
-            });
+                }
+            }
+        });
 
-        // Fetch usuarios data
-        fetch('/data/usuarios')
-            .then(response => response.json())
-            .then(data => {
-                let tableBody = document.getElementById('usuariosTable');
-                data.forEach((user, index) => {
-                    let row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${user.nombre}</td>
-                        <td>${user.correo}</td>
-                        <td>${user.borrador}</td>
-                        <td>${user.aprobados}</td>
-                        <td>${user.revision}</td>
-                        <td>${user.finalizado}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            });
+        $(document).ready(function() {
 
-        // Fetch documentos cargados data (Add if needed)
+
+
+            $('#documentsTable').DataTable({
+                "ajax": {
+          "url": "/get_data",
+          "dataSrc": ""
+        },
+                "columns": [
+                    { "data": "id" },
+                    { "data": "aprobado" },
+                    { "data": "borrador" },
+                    { "data": "correo" },
+                    { "data": "finalizado" },
+                    { "data": "nombre" },
+                    { "data": "revision" }
+                  
+                ]
+            });
+        
+});
     </script>
 </body>
 </html>
