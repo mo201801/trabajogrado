@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style>
+        .custom-input {
+            width: 800px;
+            font-size: 18px;
+        }
+        .header-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-content h1 {
+            margin: 0;
+        }
+        .register-link {
+            color: #ffffff;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .register-link:hover {
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+
+<h1>
+<p>Ha iniciado Sesion: {{session['username']}}</p>
+</h1>
+
+
+<!-- Header -->
+<header class="bg-light text-center py-5">
+    <div class="container header-content">
+        <h1 class="display-4">BUFETE DE ABOGADO CARTAGENA</h1>
+    </div>
+</header>
+
+<!-- Documents Section -->
+<section class="py-4">
+    <div class="container">
+        <table id="documentsTable" class="display">
+            <thead>
+                <tr>
+                    <th>Numero de Documento</th>
+                    <th>Tipo de Caso</th>
+                    <th>Abogado Encargado</th>
+                    <th>Fecha de Creacion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated by DataTables via AJAX -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center mt-5">
+    <p>Bufete Cartagena 2024</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#documentsTable').DataTable({
+        "ajax": {
+          "url": "/NODATA",
+          "dataSrc": ""
+        },
+        "columns": [
+            { "data": "numero_documento" },
+            { "data": "tipo_caso" },
+            { "data": "abogado_encargado" },
+            { "data": "fecha_creacion" }
+        ]
+    });
+});
+</script>
+</body>
+</html>

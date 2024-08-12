@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .badge {
+            padding: 0.5em;
+            font-size: 0.875em;
+        }
+        .btn-edit, .btn-delete {
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+        }
+        .highlight-box {
+            border: 1px solid #797A77;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+   
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+
+<h1>
+<p>Ha iniciado Sesion: {{session['username']}}, con rol de usuario: {{session['rol']}}</p>
+</h1>
+
+
+    <main role="main" class="col-md-9 mx-auto col-lg-11 px-3">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard Cartagena</h1>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Borrador</h5>
+                        {{target['borrador']}}
+                    </div>
+                </div>
+            </div>
+            
+
+
+            <input type="hidden" id="borrador" value="{{target['borrador']}}">
+            <input type="hidden" id="aprobado" value="{{target['aprobado']}}">
+            <input type="hidden" id="revision" value="{{target['revision']}}">
+            <input type="hidden" id="finalizado" value="{{target['aprobado']}}">
+
+
+
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Aprobados</h5>
+                        {{target['aprobado']}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Revision</h5>
+                        {{target['revision']}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Finalizado</h5>
+                        {{target['finalizado']}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Estado de Documentos</h5>
+                    <div class="chart-container">
+                        <canvas id="estadoDocumentosChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h5>Usuarios</h5>
+        <div class="highlight-box">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col" class="text-danger">Borrador</th>
+                            <th scope="col" class="text-primary">Aprobados</th>
+                            <th scope="col" class="text-success">Revisión</th>
+                            <th scope="col" class="text-warning">Finalizado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTable">
+                        <!-- Rows will be populated with JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <h5>Documentos cargados</h5>
+        <div class="highlight-box">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Documento</th>
+                            <th scope="col">Tipo de caso</th>
+                            <th scope="col">Encargado</th>
+                            <th scope="col">Tamaño</th>
+                            <th scope="col">Fecha creación</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentosTable">
+                        <!-- Rows will be populated with JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5">
+            <p>Bufete Cartagena 2024</p>
+        </footer>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script>
+        var ctx = document.getElementById('estadoDocumentosChart').getContext('2d');
+        var borrador = document.getElementById('borrador').value;
+        var aprobado = document.getElementById('aprobado').value;
+        var revision = document.getElementById('revision').value;
+        var finalizado = document.getElementById('finalizado').value;
+        var estadoDocumentosChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Borrador', 'Aprobados', 'Revisión', 'Finalizado'],
+                datasets: [{
+                    data: [borrador, aprobado, revision, finalizado],
+                    backgroundColor: ['#dc3545', '#007bff', '#28a745', '#ffc107']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                var total = tooltipItem.dataset.data.reduce((acc, val) => acc + val, 0);
+                                var value = tooltipItem.raw;
+                                var percentage = ((value / total) * 100).toFixed(2);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
