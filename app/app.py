@@ -262,13 +262,20 @@ def inise():
 
 #Marcelino_11_08_24
 #Dashboard con datatable
-
 @app.route('/get_data')
 def get_data():
     con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
     res = con.get_All_Data('resumen_usuario')
     data = list(res)
     return jsonify(data)
+
+@app.route('/get_documentos')
+def get_documentos():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('resumen_documentos')
+    data = list(res)
+    return jsonify(data)
+
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
