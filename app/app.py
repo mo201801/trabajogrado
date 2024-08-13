@@ -261,7 +261,7 @@ def inise():
     return render_template("loguear.html")
 
 #Marcelino_11_08_24
-#Dashboard con datatable
+#Dashboard con datatable para mostrar tabla de usuario
 @app.route('/get_data')
 def get_data():
     con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
@@ -269,6 +269,8 @@ def get_data():
     data = list(res)
     return jsonify(data)
 
+#Marcelino_12_08_24
+#Dashboard con datatable para mostrar tabla de cargar documentos
 @app.route('/get_documentos')
 def get_documentos():
     con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
