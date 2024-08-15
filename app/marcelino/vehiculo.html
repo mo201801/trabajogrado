@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Categorías</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <style>
+        /* Agrega aquí tu CSS personalizado */
+    </style>
+</head>
+<body>
+
+ {% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+<h1>
+<p>Ha iniciado Sesion: {{session['username']}}, con rol de usuario: {{session['rol']}}</p>
+</h1>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Traspaso de Vehiculos</h1>
+        <div class="table-responsive">
+            <table id="documentsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Documento</th>
+                        <th>Tipo de caso</th>
+                        <th>Abogado Responsable</th>
+                        <th>Fecha de creacion</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="text-center mt-5">
+        <p>Bufete Cartagena 2024</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#documentsTable').DataTable({
+                "ajax": {
+          "url": "/traspaso",
+          "dataSrc": ""
+        },
+                "columns": [
+                    { "data": "no" },
+                    { "data": "documento" },
+                    { "data": "caso" },
+                    { "data": "abogado" },
+                    { "data": "fcreacion" },
+                    {
+                        "data": null,
+                        "render": function(data, type, row) {
+                            return '<button class="btn btn-primary btn-sm">Ver</button>';
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
