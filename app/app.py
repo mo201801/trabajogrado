@@ -278,7 +278,39 @@ def get_documentos():
     data = list(res)
     return jsonify(data)
 
+#Marcelino_14_08_24
+#Mejoras en la vista categorias, vehiculo, penal e inmuebles
+#funcion para menuprincipal y que trabaje el datatable
+@app.route('/mprincipal')
+def mprincipal():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('documentos')
+    data = list(res)
+    return jsonify(data)
 
+#funcon para la vista de categoria penal
+@app.route('/cpenal')
+def cpenal():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('caso_penal')
+    data = list(res)
+    return jsonify(data)
+
+#funcon para la vista de categoria inmuebles
+@app.route('/inmuebles')
+def inmuebles():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('caso_inmuebles')
+    data = list(res)
+    return jsonify(data)
+
+#funcon para la vista de categoria vehiculo
+@app.route('/traspaso')
+def traspaso():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('caso_vehiculo')
+    data = list(res)
+    return jsonify(data)
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
