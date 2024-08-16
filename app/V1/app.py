@@ -201,7 +201,7 @@ def subir():
 	for j in range(len(mostr_cliente)):
 		dato[mostr_cliente[j]['Nombre']]=mostr_cliente[j]['Apellido']
 
-	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=abogados)
+	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=mostr_abo)
 
 @app.route('/clientes',methods=['POST'])
 def clientes():
