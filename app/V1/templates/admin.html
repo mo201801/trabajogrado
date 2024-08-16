@@ -1,6 +1,5 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="{{ url_for('index') }}">Inicio</a>
+  <a class="navbar-brand" href="{{ url_for('menuprin') }}">Inicio</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -12,8 +11,8 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="categoriasDropdown">
           <a class="dropdown-item" href="{{ url_for('traspaso') }}">Traspaso de Vehículo</a>
-          <a class="dropdown-item" href="{{ url_for('inmueble') }}">Inmuebles</a>
-          <a class="dropdown-item" href="{{ url_for('penal') }}">Penal</a>
+          <a class="dropdown-item" href="{{ url_for('traspaso') }}">Inmuebles</a>
+          <a class="dropdown-item" href="{{ url_for('traspaso') }}">Penal</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -37,13 +36,19 @@
           <a class="dropdown-item" href="{{ url_for('logs') }}">Logs</a>
         </div>
       </li>
-    </ul>
-
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="documentosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Registro
+        </a>
+        <div class="dropdown-menu" aria-labelledby="documentosDropdown">
+          <a class="dropdown-item" href="{{ url_for('clientes') }}">Registrar Cliente</a>
+        </div>
       </li>
     </ul>
-    
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('traspaso') }}">Cerrar Sesión</a>
+      </li>
+    </ul>
   </div>
 </nav>
