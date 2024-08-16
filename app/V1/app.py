@@ -185,6 +185,44 @@ def insertuser():
 	return redirect(url_for('index')) #,201 si queremos poner que tipo retorna
 
 
+#Jesse_15/08/2024
+
+@app.route('/subir',methods=['GET'])
+def subir():
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	clientes = con.get_All_Data('clientes')
+	tipo_doc = con.get_All_Data('tipo_docu')
+	abogado_resp = con.get_All_Data('abo_user')
+	mostr_cliente = list(clientes)
+	mostr_doc = list(tipo_doc)
+	mostr_abo = list(abogado_resp)
+	cant_datos = len(mostr_cliente)
+	dato=dict()
+	for j in range(len(mostr_cliente)):
+		dato[mostr_cliente[j]['Nombre']]=mostr_cliente[j]['Apellido']
+
+	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=abogados)
+
+@app.route('/clientes',methods=['POST'])
+def clientes():
+	if request.method =='POST':
+		nombre=request.form["nombre"]
+		apellido=request.form["apellido"]
+		telefono=request.form["tel"]
+		direccion=request.form["direc"]
+		fecha_nac=request.form["fena"]
+		genero=request.form["gen"]
+		fecha_ingre=request.form["feingre"]
+		motivo_caso=request.form["motica"]
+		dui=request.form["dui"]
+		tel_refe=request.form["telre"]
+		nom_refe=request.form["nomrefe"]
+		datos={"Nombre":nombre, "Apellido":apellido, "Telefono":telefono, "Direccion":direccion,\
+		"Fecha_nac":fecha_nac, "Genero":genero, "Fecha_ing":fecha_ingre, "Moti_cas":motivo_caso, "DUI":dui, "Tel_refe":tel_refe,\
+		"Nomb_refe":nom_refe}
+		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+		res = con.insert('clientes', datos)
+		return jsonify(datos)
 
 
 
