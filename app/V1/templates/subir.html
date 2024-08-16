@@ -53,14 +53,9 @@
     <div class="form-group">
       <select class="form-control" id="tipo_documento" name="tipo_documento">
             {% for b in abogado %}
-                <option value="{{ a }}">{{ a["nombre_abogado"] }}</option>
+                <option value="{{ b }}">{{ b["Abogado"] }}</option>
             {% endfor %}
         </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="fecha_ingreso">Fecha de Ingreso:</label>
-      <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
     </div>
     
     <div class="form-group">
