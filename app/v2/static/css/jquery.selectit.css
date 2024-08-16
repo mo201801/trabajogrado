@@ -1,0 +1,80 @@
+﻿/*
+// jquery.selectit plugin v1.0
+// Tag Editor Field using jQuery
+// Copyright (c) 2011-2024 Chris Pietschmann
+// https://github.com/crpietschmann/jquery.selectit
+// MIT License
+*/
+.selectit 
+{
+    background: #fff;
+    border: 1px solid #666;
+    border-radius: 0.25em;
+    cursor: text;
+    font-size: 0.9em;
+    margin: 0.5em 0.5em 1.5em 0;
+    padding: 0.5em;
+    width: 97%;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+.selectit.focus {
+    border: solid 0.1em blue;
+}
+
+.selectit span
+{
+    display: block;
+    float: left;
+    margin: 0 0.5em 0.1em 0;
+    position: relative;
+}
+
+.selectit .selectit-option
+{
+    position: relative;
+    color: #000;
+    background-color: #00000033;
+    border: 0.1em solid transparent;
+    border-radius: 0.25em;
+    padding: 0.5em 2em 0.5em 0.6em;
+    transition: border-color 0.5s background-color 0.5s;
+}
+.selectit .selectit-option:hover {
+    border-color: #00000055;
+}
+
+.selectit .selectit-new input:focus {
+    outline: none;
+}
+.selectit .selectit-new input 
+{
+    background: inherit;
+    border: none;
+    float: left;
+    margin: 0.25em 0.3em 0 0;
+    padding: 0.2em 0;
+    width: 97%;
+    font-size: 1.1em;
+}
+
+.selectit button.selectit-remove {
+    position: absolute;
+    right: 5%;
+    top: 15%;
+    fill: #000;
+    background: none;
+    border: solid 0.1em transparent;
+    border-radius: 0.25em;
+    padding: 0.25em 0.25em;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 0 0 0.2em;
+    text-decoration: none;
+    transition: background-color 0.5s;
+}
+.selectit button.selectit-remove:hover {
+    fill: #fff;
+    background: #DC3545;
+}
