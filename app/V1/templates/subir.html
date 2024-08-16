@@ -16,16 +16,17 @@
 </head>
 <body>
 
-{% if session['rol']=='1' %}
+{% include "admin.html" %}
+<!-- {% if session['rol']=='1' %}
 {% include 'admin.html' %}
 {% else %}
 {% include 'normal.html' %}
-{% endif %}
+{% endif %} -->
 
 
-<h1>
+<!-- <h1>
 <p>Ha iniciado Sesion: {{session['username']}}</p>
-</h1>
+</h1> -->
 
 
 
@@ -33,24 +34,28 @@
   <h2 class="mb-4">Formulario para Subir Documento</h2>
   <form action="upload.php" method="POST" enctype="multipart/form-data" id="subirdoc">
     <div class="form-group">
-      <label for="clientes">Clientes:</label>
-      <input type="text" class="form-control" id="clientes" name="clientes" required>
+      <select class="form-control" id="mostrar" name="mostrar">
+            {% for l,c in mostrar.items() %}
+                <option value="{{ l }}">{{ l }} {{ c }}</option>
+            {% endfor %}
+        </select>
     </div>
     
     <div class="form-group">
       <label for="tipo_documento">Tipo de Documento:</label>
-      <select class="form-control" id="tipo_documento" name="tipo_documento" required>
-        <option value="">Selecciona el tipo de documento</option>
-        <option value="Contrato">Contrato</option>
-        <option value="Informe">Informe</option>
-        <option value="Acta">Acta</option>
-        <!-- Agrega más opciones según tus necesidades -->
-      </select>
+      <select class="form-control" id="tipo_documento" name="tipo_documento">
+            {% for a in docu %}
+                <option value="{{ a }}">{{ a["tipo_docu"] }}</option>
+            {% endfor %}
+        </select>
     </div>
     
     <div class="form-group">
-      <label for="abogado">Abogado Responsable:</label>
-      <input type="text" class="form-control" id="abogado" name="abogado" required>
+      <select class="form-control" id="tipo_documento" name="tipo_documento">
+            {% for b in abogado %}
+                <option value="{{ a }}">{{ a["nombre_abogado"] }}</option>
+            {% endfor %}
+        </select>
     </div>
     
     <div class="form-group">
