@@ -1,0 +1,38 @@
+URL-ELIMINAR USUARIO: http://192.168.1.46:5000/api/delete/usuario/475c6678-08ef-4570-9fe0-f05c1cadcc9b
+
+
+URL-ACTUALIZAR:  http://192.168.1.46:5000/api/update/clientes/63a3ee4f-62b6-40e8-af16-bb63efed3023
+
+insertar o actualizar clientes
+
+{
+    "apellidos": "Sigaran",
+    "direccion": "Calle Falsa 123",
+    "dui": "12345678-9",
+    "fecha_ingreso": "2024-08-16",
+    "fecha_nacimiento": "1990-01-01",
+    "genero": "masculino",
+    "motivo": "Consulta inicial",
+    "nombre": "Pablo",
+    "nombre_referencia": "Maria López",
+    "telefono": "123456789",
+    "telefono_referencia": "987654321"
+}
+
+
+
+URL-INSERTAR: http://192.168.1.46:5000/api/insert/clientes
+
+{
+    "apellidos": "Sigaran",
+    "direccion": "Calle Falsa 123",
+    "dui": "12345678-9",
+    "fecha_ingreso": "2024-08-16",
+    "fecha_nacimiento": "1990-01-01",
+    "genero": "masculino",
+    "motivo": "Consulta inicial",
+    "nombre": "Pablo",
+    "nombre_referencia": "Maria López",
+    "telefono": "123456789",
+    "telefono_referencia": "987654321"
+}
