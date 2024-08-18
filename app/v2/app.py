@@ -6,6 +6,7 @@ from datetime import datetime
 from DB import RethinkDBCRUD
 import sqlite3
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
@@ -24,28 +25,31 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSION
 
 @app.route('/cargar', methods=['POST'])
-def docu():
-    print('Se cargó documento')
-    if 'file' not in request.files:
-        return jsonify({'message': 'No file part'})
-    
-    file = request.files['file']
-    
-    if file.filename == '':
-        print('No se seleccionó archivo')
-        return jsonify({'message': 'No selected file'})
-    
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        
-        # Recoger otros datos del formulario
+def upload_file():
+    if request.method == 'POST':
         additional_data = request.form.to_dict()
         print(additional_data)
+
+        if 'archivo' not in request.files:
+            return jsonify({'message': 'No file part'}), 400
         
-        return jsonify({'message': 'File successfully uploaded', 'data': additional_data})
-    
-    return jsonify({'message': 'File not allowed'})
+        file = request.files['archivo']
+        
+        if file.filename == '':
+            return jsonify({'message': 'No selected file'}), 400
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            # Recoger otros datos del formulario
+            print(additional_data)
+            
+            # Puedes realizar más acciones con los datos adicionales aquí
+            
+            return jsonify({'message': 'File successfully uploaded', 'data': additional_data}), 200
+        
+        return jsonify({'message': 'File not allowed'}), 400
 
 
 @app.route('/')
