@@ -156,9 +156,9 @@ def logs():
 def new_pass():
     return render_template("newpass.html") 
 
-@app.route('/rclientes')
-def rclientes():
-    return render_template("rclientes.html")
+@app.route('/clientes')
+def clientes():
+    return render_template("clientes.html")
 
 # ver datos en datable de logs
 @app.route('/data')
