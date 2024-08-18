@@ -17,7 +17,11 @@
 </head>
 <body>
 
-{% include "admin.html" %}
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
 
 <div class="container mt-4">
     <h2 class="mb-4">Registro de Clientes</h2>
