@@ -48,6 +48,12 @@ class RethinkDBCRUD:
 			result = self.r.table(table_name).run(self.connection)
 			return result
 
+# rescatar solo select * from table where dui=1348474
+	def get_dui(self, table_name, dui):
+			query = {"DUI":dui}
+			result = self.r.table(table_name).filter(query).run(self.connection)
+			return result
+
  # from DB import RethinkDBCRUD
  # con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
  # res = con.get_All_Data('usuarios')
