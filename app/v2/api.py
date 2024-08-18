@@ -37,6 +37,13 @@ def insert_cliente():
 		'direccion':cliente['direccion'],'fecha_nacimiento':cliente['fecha_nacimiento'],'genero':cliente['genero'],\
 		'fecha_ingreso':cliente['fecha_ingreso'],'motivo':cliente['motivo'],'dui':cliente['dui'],'telefono_referencia':cliente['telefono_referencia'],\
 		'nombre_referencia':cliente['nombre_referencia']})
+	date= datetime.now()
+	fecha = date.strftime('%Y-%m-%d')
+	hora = date.strftime('%H:%M')
+	idcliente = cliente['nombre']
+	msj = f'Se ingreso cliente: {idcliente} correctamente'
+	servicio = 'info'
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
 	return jsonify(cliente), 201
 
 @app.get('/api/get/clientes/<id_cliente>')
@@ -54,8 +61,13 @@ def delete_clientes(id_eliminar):
 	# Retorna todos los clientes almacenados
 	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
 	res = con.delete('clientes', id_eliminar)
-	mensaje = f"Usuario {id_eliminar} eliminado correctamente"
-	return jsonify(mensaje)
+	date= datetime.now()
+	fecha = date.strftime('%Y-%m-%d')
+	hora = date.strftime('%H:%M')
+	msj = f"Usuario {id_eliminar} eliminado correctamente"
+	servicio = 'info'
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
+	return jsonify(msj)
 
 
 @app.post('/api/update/clientes/<id_update>')
@@ -80,8 +92,13 @@ def update_clientes(id_update):
 		'direccion':cliente['direccion'],'fecha_nacimiento':cliente['fecha_nacimiento'],'genero':cliente['genero'],\
 		'fecha_ingreso':cliente['fecha_ingreso'],'motivo':cliente['motivo'],'dui':cliente['dui'],'telefono_referencia':cliente['telefono_referencia'],\
 		'nombre_referencia':cliente['nombre_referencia']})
-	mensaje = f"Cliente {id_update} actualizado correctamente"
-	return jsonify(mensaje)
+	date= datetime.now()
+	fecha = date.strftime('%Y-%m-%d')
+	hora = date.strftime('%H:%M')
+	msj = f"Cliente {id_update} actualizado correctamente"
+	servicio = 'info'
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
+	return jsonify(msj)
 
 
 
@@ -98,6 +115,7 @@ def agregar_usuario():
 		'cant_login': data['cant_login']
 		}
 		pass_hash = generate_password_hash(usuario['password'])
+		idusuario = usuario['nombre']
 
 		dir_regimen = f"casos/{usuario['nombre']}/regimen"
 		dir_traspasos = f"casos/{usuario['nombre']}/traspasos"
@@ -108,6 +126,13 @@ def agregar_usuario():
 			os.makedirs(carpet,exist_ok=True)
 			
 		# insercion de datos en DB con clase
+		date= datetime.now()
+		fecha = date.strftime('%Y-%m-%d')
+		hora = date.strftime('%H:%M')
+
+		msj = f"Usuario {idusuario} ingresado correctamente"
+		servicio = 'info'
+		con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
 		con.insert('usuarios',{'username':usuario['nombre'],'password':pass_hash,'rol':usuario['admin'],'abogado':usuario['abogado'],'cant_login':usuario['cant_login']})
 
 	return jsonify('Usuario ingresado') #,201 si queremos poner que tipo retorna
@@ -118,7 +143,12 @@ def delete_usuario(id_deleteuser):
 	# Retorna todos los clientes almacenados
 	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
 	res = con.delete('usuarios', id_deleteuser)
-	mensaje = f"Usuario {id_deleteuser} eliminado correctamente"
+	date= datetime.now()
+	fecha = date.strftime('%Y-%m-%d')
+	hora = date.strftime('%H:%M')
+	msj = f"Usuario {id_deleteuser} eliminado correctamente"
+	servicio = 'info'
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
 	return jsonify(mensaje)
 
 
