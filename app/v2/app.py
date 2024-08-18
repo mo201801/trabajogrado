@@ -36,7 +36,7 @@ def index():
 	hora = date.strftime('%H:%M')
 	msj = f'Usuario con IP: {ip} se logueo'
 	servicio = 'info'
-	con.insert('logs',{'Fecha':fecha,'Hora':hora,'mensaje':msj,'servicio':servicio})
+	con.insert('logs',{'Fecha':fecha,'Hora':hora,'Mensaje':msj,'Servicio':servicio})
 	return render_template("index.html")
 
 
