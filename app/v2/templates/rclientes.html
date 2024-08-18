@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Registro de Clientes</title>
 
+<link rel="icon" type="image/x-icon" href="/static/favicon.icon">
+
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -58,13 +61,13 @@
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="fecha_ingreso">Fecha de Ingreso:</label>
-                <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
+                <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required disabled>
             </div>
             <div class="form-group col-md-6">
                 <label for="motivo">Motivo del Caso:</label>
                 <textarea class="form-control" id="motivo" name="motivo" rows="4" required></textarea>
             </div>
-        </div>
+        </div>POST
         
         <div class="form-group">
             <label for="dui">Número de DUI:</label>
@@ -96,6 +99,10 @@
 
 <script type="text/javascript">
 $(function(){
+
+     var today = new Date().toISOString().split('T')[0];
+    $('#fecha_ingreso').val(today);
+
     $('#regisclien').on('submit',function(event){
         event.preventDefault();
         
