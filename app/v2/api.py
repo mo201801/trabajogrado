@@ -39,11 +39,11 @@ def insert_cliente():
 		'nombre_referencia':cliente['nombre_referencia']})
 	return jsonify(cliente), 201
 
-@app.get('/api/get/clientes')
-def get_clientes():
+@app.get('/api/get/clientes/<id_cliente>')
+def get_clientes(id_cliente):
 	# Retorna todos los clientes almacenados
 	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
-	res = con.get_All_Data('clientes')
+	res = con.get_dui('clientes', id_cliente)
 	data = list(res)
 	return jsonify(data)
 
@@ -112,6 +112,65 @@ def agregar_usuario():
 
 	return jsonify('Usuario ingresado') #,201 si queremos poner que tipo retorna
 
+
+@app.get('/api/delete/usuario/<id_deleteuser>')
+def delete_usuario(id_deleteuser):
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.delete('usuarios', id_deleteuser)
+	mensaje = f"Usuario {id_deleteuser} eliminado correctamente"
+	return jsonify(mensaje)
+
+
+@app.get('/api/get/usuario')
+def get_usuario():
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_All_Data('usuarios')
+	data = list(res)
+	return jsonify(data)
+
+
+@app.get('/api/get/documentos')
+def get_documentos():
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_All_Data('documentos')
+	data = list(res)
+	return jsonify(data)
+
+
+@app.get('/api/get/penales/<id_user>')
+def get_penales(id_user):
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_User('caso_penal', id_user)
+	data = list(res)
+	return jsonify(data)
+
+@app.get('/api/get/inmueble/<id_user>')
+def get_inmueble(id_user):
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_User('caso_inmuebles', id_user)
+	data = list(res)
+	return jsonify(data)
+
+@app.get('/api/get/vehiculos/<id_user>')
+def get_vehiculos(id_user):
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_User('caso_vehiculo', id_user)
+	data = list(res)
+	return jsonify(data)
+
+@app.get('/api/get/logs')
+def get_logs():
+	# Retorna todos los clientes almacenados
+	con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+	res = con.get_All_Data('logs')
+	data = list(res)
+	return jsonify(data)
 
 
 if __name__ == '__main__':
