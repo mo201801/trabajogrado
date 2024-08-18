@@ -271,7 +271,7 @@ def traspaso():
     return jsonify(data)
 
 @app.route('/clientes',methods=['POST'])
-def clientes():
+def rclientes():
 	if request.method =='POST':
 		nombre=request.form["nombre"]
 		apellido=request.form["apellido"]
@@ -284,12 +284,15 @@ def clientes():
 		dui=request.form["dui"]
 		tel_refe=request.form["telre"]
 		nom_refe=request.form["nomrefe"]
-		datos={"Nombre":nombre, "Apellido":apellido, "Telefono":telefono, "Direccion":direccion,\
-		"Fecha_nac":fecha_nac, "Genero":genero, "Fecha_ing":fecha_ingre, "Moti_cas":motivo_caso, "DUI":dui, "Tel_refe":tel_refe,\
-		"Nomb_refe":nom_refe}
+		datos={"nombre":nombre, "apellidos":apellido, "telefono":telefono,\
+		"direccion":direccion,\
+		"fecha_nacimiento":fecha_nac, "genero":genero, "fecha_ingreso":fecha_ingre, \
+		"motivo":motivo_caso, 'dui':dui, "telefono_referencia":tel_refe,\
+		"nombre_referencia":nom_refe}
 		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
 		res = con.insert('clientes', datos)
 		return jsonify(datos)
+
 
 #Jesse_15/08/2024
 
