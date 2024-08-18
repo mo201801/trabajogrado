@@ -21,8 +21,31 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # funcion para delimitar los archivos que son admitidos.
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSION
 
+@app.route('/cargar', methods=['POST'])
+def docu():
+    print('Se cargó documento')
+    if 'file' not in request.files:
+        return jsonify({'message': 'No file part'})
+    
+    file = request.files['file']
+    
+    if file.filename == '':
+        print('No se seleccionó archivo')
+        return jsonify({'message': 'No selected file'})
+    
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        # Recoger otros datos del formulario
+        additional_data = request.form.to_dict()
+        print(additional_data)
+        
+        return jsonify({'message': 'File successfully uploaded', 'data': additional_data})
+    
+    return jsonify({'message': 'File not allowed'})
 
 
 @app.route('/')
