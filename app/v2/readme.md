@@ -6,10 +6,10 @@
 - /eliminarUsario
 - /verUsuarios
 
-- /verTotalDocumentos/<usuario>
-- /penales/<usuario>
-- /inmueble/<usuario>
-- /vehiculos/<usuario>
+- /verTotalDocumentos/id_user
+- /penales/id_user
+- /inmueble/id_user
+- /vehiculos/id_user
 
 - /log
 
