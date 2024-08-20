@@ -339,6 +339,11 @@ def subir():
 
 	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=mostr_abo)
 
+#Jesse_19/08/2024
+@app.route('/buscar')
+def buscar():
+    return render_template("buscar.html")
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
