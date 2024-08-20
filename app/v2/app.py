@@ -353,6 +353,24 @@ def buscar():
 		return resultado.stdout
 
 
+#Jesse_19/08/2024
+@app.route('/caratula', methods=['GET', 'POST'])
+def caratula():
+	if request.method == 'GET':
+		return render_template("formcara.html")
+	elif request.method == 'POST':
+		data = request.form
+		caratula = {
+		'numero': data['numero'],
+		'anio': data['anio'],
+		'libro': data['libro'],
+		'otorgadoPor': data['otorgadoPor'],
+		'aFavorDe': data['aFavorDe'],
+		'notario': data['notario']
+		}
+		return render_template("caratula.html",caratula=caratula)
+
+
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
