@@ -7,6 +7,7 @@ from DB import RethinkDBCRUD
 import sqlite3
 from datetime import datetime
 from werkzeug.utils import secure_filename
+import subprocess
 
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
@@ -339,10 +340,19 @@ def subir():
 
 	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=mostr_abo)
 
-#Jesse_19/08/2024
-@app.route('/buscar')
+#Rafael19/08/2024
+@app.route('/buscar',methods=['GET','POST'])
 def buscar():
-    return render_template("buscar.html")
+	if request.method == 'GET':
+		return render_template("buscar.html")
+	if request.method == 'POST':
+		busqueda = request.form['busqueda']
+		script = 'busqueda.sh'
+		args = [script,busqueda]
+		resultado = subprocess.run(['bash']+args,capture_output=True,text=True)
+		return resultado.stdout
+
+
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
