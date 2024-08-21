@@ -49,7 +49,7 @@
       <label for="tipo_documento">Tipo de Documento:</label>
       <select class="form-control" id="tipo_documento" name="tipo_documento">
             {% for a in docu %}
-                <option value="{{ a }}">{{ a["tipo_docu"] }}</option>
+                <option value="{{ a['tipo_docu'] }}">{{ a["tipo_docu"] }}</option>
             {% endfor %}
         </select>
     </div>
@@ -58,7 +58,7 @@
       <label for="abogado">Abogado Responsable:</label>
       <select class="form-control" id="tipo_documento" name="tipo_documento">
             {% for b in abogado %}
-                <option value="{{ b }}">{{ b["Abogado"] }}</option>
+                <option value="{{ b['Abogado'] }}">{{ b["Abogado"] }}</option>
             {% endfor %}
         </select>
     </div>
