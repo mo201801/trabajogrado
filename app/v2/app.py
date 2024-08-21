@@ -150,30 +150,28 @@ def logout():
 @app.route('/insertuser',methods=["POST"])
 def insertuser():
 	if request.method == 'POST':
-		conlite = sqlite3.connect('ingresos.db')
-		curlite = conlite.cursor()
-
 
 		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
 		name = request.form["nombre"] # con los nombres que se definio en ajax
 		pas = request.form["password"]
 		bol_admin = request.form["admin"]
 		bol_abogado = request.form["abogado"]
-		cant_login =0
-
 		
 		pass_hash = generate_password_hash(pas)
-
-		sql ='''insert into ingresos(username) values(?)'''
-		curlite.execute(sql,(name,))
-		conlite.commit()
 
 		dir_regimen = f"casos/{name}/regimen"
 		dir_traspasos = f"casos/{name}/traspasos"
 		dir_penal = f"casos/{name}/penal"
 		dir_default = [dir_regimen,dir_traspasos,dir_penal]
 
-		conlite.close()
+		for carpet in dir_default:
+			os.makedirs(carpet,exist_ok=True)
+			
+		# insercion de datos en DB con clase
+		con.insert('usuarios',{'username':name,'password':pass_hash,\
+			'rol':bol_admin,'abogado':bol_abogado,'cant_login':0})
+
+	return redirect(url_for('mprincipal')) #,201 si queremos poner que tipo retorna
 
 
 		for carpet in dir_default:
