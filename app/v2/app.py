@@ -370,7 +370,16 @@ def caratula():
 		}
 		return render_template("caratula.html",caratula=caratula)
 
+#Login
+@app.route('/login',methods=["POST"])
+def login():
+	name = request.form["nombre"] # con los nombres que se definio en ajax
+	pas = request.form["password"]
+	pass_hash = generate_password_hash(pas)
 
+	print(name,pass_hash)
+	#flash('An error occurred.', 'error')
+	return jsonify({'Funcionamiento':pass_hash})
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
