@@ -9,6 +9,8 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 import subprocess
 
+
+
 # espacio de carpetas de almacenamiento
 #  de momento temporales debe hacerse de manera dinamica
 UPLOAD_FOLDER = 'uploads'
@@ -23,34 +25,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # funcion para delimitar los archivos que son admitidos.
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSION
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/cargar', methods=['POST'])
-def upload_file():
-    if request.method == 'POST':
-        additional_data = request.form.to_dict()
-        print(additional_data)
-
-        if 'archivo' not in request.files:
-            return jsonify({'message': 'No file part'}), 400
-        
-        file = request.files['archivo']
-        
-        if file.filename == '':
-            return jsonify({'message': 'No selected file'}), 400
-        
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
-            # Recoger otros datos del formulario
-            print(additional_data)
-            
-            # Puedes realizar más acciones con los datos adicionales aquí
-            
-            return jsonify({'message': 'File successfully uploaded', 'data': additional_data}), 200
-        
-        return jsonify({'message': 'File not allowed'}), 400
 
 
 @app.route('/')
@@ -73,62 +49,26 @@ def index():
 @app.route('/login',methods=['GET', "POST"])
 def login():
 	if request.method == 'POST':
-		conlite = sqlite3.connect('ingresos.db')
-		curlite = conlite.cursor()
-
+		pass_ok = False
+		pass_bool = False
 		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
 		username = request.form["username"] # con los nombres que se definio en ajax
 		pas = request.form["password"]
 		res = con.get_User('usuarios',username)
-
 		if res.items:
 			pass_bool = check_password_hash(res.items[0]['password'],pas)
-		
-		retorno =False
+			pass_ok = True
+			session['rol']=res.items[0]['rol']
+			session['username']=res.items[0]['username']
 
+		if pass_bool and pass_ok:
+			datos = {}
+			datos['rol']=session['rol']
+			datos['username']=session['username']
 
-		if pass_bool:
-			sql ='''select * from ingresos where username=?'''
-			curlite.execute(sql,(username,))
-			fila = curlite.fetchone()
-			if fila is None:
-				retorno =False
-				print('no hay user')
-				conlite.close()
-			else:
-
-				retorno=True
-				print('total de ingresos',fila[2])
-				conlite.close()
-				if fila[2]==0:
-					return render_template("newpass.html",user=fila[1])
-
-
-		if pass_bool and retorno:
-				return jsonify('todo ok') #redirect(url_for('new_pass'))
+			return redirect('menuprin') #redirect(url_for('new_pass'))
 		else:
-			# pass_bool = check_password_hash(pas,res.items[0]['password'])
-			# session['rol']=res.items[0]['rol']
-			# session['abogado']=res.items[0]['abogado']
-			# session['username']=res.items[0]['username']
-			return jsonify('algo salio mal') #redirect(url_for('index'))
-
-		# if res.items:
-		# 	datos={}
-		# 	datos['id']=res.items[0]['id']
-		# 	datos['abogado']=res.items[0]['abogado']
-		# 	datos['password']=res.items[0]['password']
-		# 	datos['rol']=res.items[0]['rol']
-		# 	datos['username']=res.items[0]['username']
-		# 	session['rol']=res.items[0]['rol']
-		# 	session['abogado']=res.items[0]['abogado']
-		# 	session['username']=res.items[0]['username']
-		# 	print(datos)
-		# 	admin=res.items[0]['rol']
-		# 	return redirect(url_for('menuprin'))
-		# else:
-		# 	return redirect(url_for('index'))
-
+			return redirect('index') #redirect(url_for('index'))
 	return render_template("loguear.html")
 
     
@@ -219,6 +159,8 @@ def insertuser():
 		pas = request.form["password"]
 		bol_admin = request.form["admin"]
 		bol_abogado = request.form["abogado"]
+		cant_login =0
+
 		
 		pass_hash = generate_password_hash(pas)
 
@@ -238,7 +180,8 @@ def insertuser():
 			os.makedirs(carpet,exist_ok=True)
 			
 		# insercion de datos en DB con clase
-		con.insert('usuarios',{'username':name,'password':pass_hash,'rol':bol_admin,'abogado':bol_abogado})
+		con.insert('usuarios',{'username':name,'password':pass_hash,\
+			'rol':bol_admin,'abogado':bol_abogado,'cant_login':0})
 
 	return redirect(url_for('mprincipal')) #,201 si queremos poner que tipo retorna
 
@@ -321,7 +264,6 @@ def rclientes():
 		res = con.insert('clientes', datos)
 		return jsonify(datos)
 
-
 #Jesse_15/08/2024
 
 @app.route('/subir',methods=['GET'])
@@ -336,11 +278,42 @@ def subir():
 	cant_datos = len(mostr_cliente)
 	dato=dict()
 	for j in range(len(mostr_cliente)):
-		dato[mostr_cliente[j]['Nombre']]=mostr_cliente[j]['Apellido']
+		dato[mostr_cliente[j]['nombre']]=mostr_cliente[j]['apellidos']
 
 	return render_template('subir.html',mostrar=dato,docu=mostr_doc,abogado=mostr_abo)
 
-#Rafael19/08/2024
+
+
+#Rafael_22/07/2024
+#Enviar datos de cargar documentos
+@app.route('/cargar', methods=['POST'])
+def docu():
+    if request.method == 'POST':
+        additional_data = request.form.to_dict()
+        print(additional_data)
+
+        if 'archivo' not in request.files:
+            return jsonify({'message': 'No file part'}), 400
+        
+        file = request.files['archivo']
+        
+        if file.filename == '':
+            return jsonify({'message': 'No selected file'}), 400
+       
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            # Recoger otros datos del formulario
+            print(additional_data)
+            
+            # Puedes realizar más acciones con los datos adicionales aquí
+            
+            return jsonify({'message': 'File successfully uploaded', 'data': additional_data}), 200
+        
+        return jsonify({'message': 'File not allowed'}), 400
+
+#Jesse_19/08/2024
 @app.route('/buscar',methods=['GET','POST'])
 def buscar():
 	if request.method == 'GET':
@@ -351,35 +324,6 @@ def buscar():
 		args = [script,busqueda]
 		resultado = subprocess.run(['bash']+args,capture_output=True,text=True)
 		return resultado.stdout
-
-
-#Jesse_19/08/2024
-@app.route('/caratula', methods=['GET', 'POST'])
-def caratula():
-	if request.method == 'GET':
-		return render_template("formcara.html")
-	elif request.method == 'POST':
-		data = request.form
-		caratula = {
-		'numero': data['numero'],
-		'anio': data['anio'],
-		'libro': data['libro'],
-		'otorgadoPor': data['otorgadoPor'],
-		'aFavorDe': data['aFavorDe'],
-		'notario': data['notario']
-		}
-		return render_template("caratula.html",caratula=caratula)
-
-#Login
-@app.route('/login',methods=["POST"])
-def login():
-	name = request.form["nombre"] # con los nombres que se definio en ajax
-	pas = request.form["password"]
-	pass_hash = generate_password_hash(pas)
-
-	print(name,pass_hash)
-	#flash('An error occurred.', 'error')
-	return jsonify({'Funcionamiento':pass_hash})
 
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
