@@ -5,39 +5,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulario de Subida de Documento con Bootstrap</title>
 <!--agregado de favicon-->
-<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<!-- Bootstrap CSS -->
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 <body>
+
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+
+<!-- <h1>
+<p>Ha iniciado Sesion: {{session['username']}}</p>
+</h1> -->
+
+
+
 <div class="container mt-4">
   <h2 class="mb-4">Formulario para Subir Documento</h2>
-  <form method="POST" enctype="multipart/form-data" id="subirdoc">
-    <label for="clientes">Clientes:</label>
-    <input type="text" class="form-control mb-2" id="clientes" name="clientes" required>
-
-    <label for="tipo_documento">Tipo de Documento:</label>
-    <select class="form-control mb-2" id="tipo_documento" name="tipo_documento" required>
-      <option value="">Selecciona el tipo de documento</option>
-      <option value="Contrato">Contrato</option>
-      <option value="Informe">Informe</option>
-      <option value="Acta">Acta</option>
-    </select>
-
-    <label for="abogado">Abogado Responsable:</label>
-    <input type="text" class="form-control mb-2" id="abogado" name="abogado" required>
-
-    <label for="fecha_ingreso">Fecha de Ingreso:</label>
-    <input type="date" class="form-control mb-2" id="fecha_ingreso" name="fecha_ingreso" required>
-
-    <label for="comentario">Comentario:</label>
-    <textarea class="form-control mb-2" id="comentario" name="comentario" rows="4"></textarea>
-
-    <label for="archivo">Adjuntar Archivo:</label>
-    <input type="file" class="form-control-file mb-3" id="archivo" name="archivo" accept=".pdf">
-
+  <form action="upload.php" method="POST" enctype="multipart/form-data" id="subirdoc">
+    <div class="form-group">
+      <select class="form-control" id="mostrar" name="mostrar">
+            {% for l,c in mostrar.items() %}
+                <option value="{{ l }}">{{ l }} {{ c }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="tipo_documento">Tipo de Documento:</label>
+      <select class="form-control" id="tipo_documento" name="tipo_documento">
+            {% for a in docu %}
+                <option value="{{ a }}">{{ a["tipo_docu"] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+      <select class="form-control" id="tipo_documento" name="tipo_documento">
+            {% for b in abogado %}
+                <option value="{{ b }}">{{ b["Abogado"] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="comentario">Comentario:</label>
+      <textarea class="form-control" id="comentario" name="comentario" rows="4"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="archivo">Adjuntar Archivo:</label>
+      <input type="file" class="form-control-file" id="archivo" name="archivo" accept=".pdf, .doc, .docx">
+    </div>
+    
     <button type="submit" class="btn btn-primary">Subir Documento</button>
   </form>
 </div>
@@ -50,17 +79,20 @@
 $(function(){
   $('#subirdoc').on('submit',function(event){
     event.preventDefault();
-    var formData = new FormData(this);
-    console.log(formData);
-    $.ajax({
+// funcion para hacer envio de datos de formulario y archivo.
+  var formData = new FormData(this);
+    
+$.ajax({
       type:'POST',
-      url:'/cargar',
-      data:formData,
-      processData: false,
+      url:'/cargar',  // URL del script PHP para guardar datos
+      data:formData
+      ,processData: false,
       contentType: false,
       success:function(response){
+        //console.log(response);
         $('#subirdoc')[0].reset();
         alert('Datos guardados correctamente.');
+
       },
       error:function(response){
         alert('Error al guardar los datos.');
@@ -68,6 +100,8 @@ $(function(){
     });
   });
 }); 
+                    
+   
 </script>
 
 <!-- Bootstrap JS -->
