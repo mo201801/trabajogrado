@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Búsqueda</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <style>
+        /*body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+        }*/
+        .search-container {
+            text-align: center;
+        }
+        .search-container img {
+            width: 1100px; /* Tamaño aumentado para la imagen */
+            height: auto;
+        }
+        .search-container input[type="text"] {
+            width: 60%; /* Tamaño aumentado para el campo de búsqueda */
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 18px; /* Tamaño de fuente aumentado */
+            border: 1px solid #ccc;
+            border-radius: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .search-container button {
+            margin-top: 20px;
+            padding: 15px 30px; /* Tamaño aumentado para el botón */
+            font-size: 18px; /* Tamaño de fuente aumentado */
+            color: #fff;
+            background-color: #4285f4;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+
+ {% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+    <form method="POST" action="/buscar"> 
+        
+  
+    <div class="search-container">
+        <!-- Agregamos la imagen principal aquí -->
+        <img src="../static/images/logo2.png" alt="Bufete de Abogados">
+        <input type="text" placeholder="Buscar en bufete cartagena" name="busqueda">
+        <br>
+        <button>Buscar</button>
+    </div>
+      </form>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Google</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .search-results {
+            margin: 20px;
+            max-width: 600px;
+        }
+        .search-results ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .search-results li {
+            margin-bottom: 20px;
+        }
+        .search-results h3 {
+            font-size: 18px;
+            margin: 0;
+        }
+        .search-results a {
+            text-decoration: none;
+            color: #1a0dab;
+        }
+        .search-results a:hover {
+            text-decoration: underline;
+        }
+        .search-results p {
+            color: #545454;
+            font-size: 14px;
+            margin: 5px 0 0;
+        }
+    </style>
+</head>
+<body>
+
+ {% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
+
+    <div class="search-results">
+        <h2>Lista de busqueda</h2>
+        <ul>
+            <li>
+                <h3><a href="{{ar}}"> Nombre del archivo : {{ar}}</a></h3>
+                <p> Encontrado en pagina : {{pagina}}</p>
+                <p> Texto encontrado : {{busqueda}}</p>
+            </li>
+        </ul>
+    </div>
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+</body>
+</html>
