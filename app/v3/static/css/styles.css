@@ -1,0 +1,59 @@
+/*Login*/
+html, body {
+    height: 100%;
+}
+
+.card {
+    width: 300px;
+}
+
+footer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+/*Dashboard*/
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+}
+
+.main {
+    margin-left: 200px; /* Adjust this value based on the width of the sidebar */
+}
+
+
+/* archivo: static/styles.css */
+
+/* Personaliza la barra de navegación si es necesario */
+.navbar {
+  margin-bottom: 20px;
+}
+
+header img {
+    width: 100px;
+    height: auto;
+}
+
+header h1 {
+    color: #008080;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+}
+
+
+/*imagen*/
+.img-fluid {
+ text-align: center;	
+}
+
+/*texto */
+p.mt-4{
+  border:7px solid blue;
+}
+
