@@ -13,7 +13,11 @@
 </head>
 <body >
 
-
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
 
 <div class="container d-flex justify-content-center align-items-center vh-100 move-down">
         <div class="card">
