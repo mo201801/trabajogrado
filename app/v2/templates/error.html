@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje de Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c6cfcd;
+            color: #721c24;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .error-container {
+            background-color: #ffffff;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            color: black;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .error-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .error-header {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .error-message {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .error-footer {
+            font-size: 0.9em;
+        }
+        .btn {
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+        }
+        .btn:hover {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <!-- Imagen con ruta actualizada -->
+        <img src="static/images/error.JPG" alt="Imagen de Error" class="error-image">
+        <div class="error-header">¡Lo sentimos!</div>
+        <div class="error-message">
+            Algo salio mal, lo solventaremos a la brevedad posible.
+        </div>
+        <div class="error-footer">
+            <a href="index.html" class="btn">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>
