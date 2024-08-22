@@ -14,7 +14,11 @@
 </head>
 <body>
 
-
+{% if session['rol']=='1' %}
+{% include 'admin.html' %}
+{% else %}
+{% include 'normal.html' %}
+{% endif %}
 
 
 <div class="container mt-4">
