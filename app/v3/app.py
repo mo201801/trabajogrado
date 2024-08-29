@@ -384,6 +384,10 @@ def caratula():
 		'departamento': data['departamento'],
 		'continente': data['continente']
 		}
+
+		con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+		res = con.insert('caratula', caratula)
+
 		return render_template("tabla.html",caratula=caratula)
 
 
