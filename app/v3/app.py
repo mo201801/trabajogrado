@@ -391,6 +391,18 @@ def caratula():
 		return render_template("tabla.html",caratula=caratula)
 
 
+@app.route('/cara')
+def cara():
+	return render_template("caratula.html")
+
+@app.route('/dataportada')
+def dataportada():
+    con = RethinkDBCRUD(host='51.222.28.110',db='DB_UPES')
+    res = con.get_All_Data('caratula')
+    data = list(res)
+    return jsonify(data)
+
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
